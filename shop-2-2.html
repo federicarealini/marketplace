@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MAISON — Collection</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f5f0e8;
+      --warm-white: #faf8f4;
+      --charcoal: #1a1a18;
+      --mid: #6b6560;
+      --accent: #c9a96e;
+      --border: #e0d9ce;
+    }
+
+    body {
+      background-color: var(--warm-white);
+      color: var(--charcoal);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 4rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--warm-white);
+      z-index: 10;
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+    }
+
+    nav {
+      display: flex;
+      gap: 2.5rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    nav a { text-decoration: none; color: inherit; transition: color 0.2s; }
+    nav a:hover { color: var(--charcoal); }
+
+    .hero {
+      padding: 5rem 4rem 3rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 300;
+      line-height: 0.9;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-title em { font-style: italic; color: var(--accent); }
+
+    .hero-meta {
+      text-align: right;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mid);
+      line-height: 2;
+    }
+
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.2rem 4rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mid);
+      overflow-x: auto;
+    }
+
+    .filter-bar span { white-space: nowrap; }
+
+    .filter-pill {
+      padding: 0.4rem 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      background: transparent;
+      color: var(--mid);
+      font-family: inherit;
+      font-size: inherit;
+      letter-spacing: inherit;
+    }
+
+    .filter-pill:hover, .filter-pill.active {
+      background: var(--charcoal);
+      border-color: var(--charcoal);
+      color: var(--warm-white);
+    }
+
+    .grid-wrapper { padding: 3rem 4rem 6rem; }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2.5rem 2rem;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp 0.6s forwards;
+    }
+
+    .card:nth-child(1)  { animation-delay: 0.05s; }
+    .card:nth-child(2)  { animation-delay: 0.12s; }
+    .card:nth-child(3)  { animation-delay: 0.19s; }
+    .card:nth-child(4)  { animation-delay: 0.26s; }
+    .card:nth-child(5)  { animation-delay: 0.33s; }
+    .card:nth-child(6)  { animation-delay: 0.40s; }
+    .card:nth-child(7)  { animation-delay: 0.47s; }
+    .card:nth-child(8)  { animation-delay: 0.54s; }
+    .card:nth-child(9)  { animation-delay: 0.61s; }
+
+    @keyframes fadeUp { to { opacity: 1; transform: none; } }
+    @keyframes spin   { to { transform: rotate(360deg); } }
+
+    .card-image-wrap {
+      position: relative;
+      overflow: hidden;
+      background: var(--cream);
+      aspect-ratio: 3 / 4;
+    }
+
+    .card-image-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .card:hover .card-image-wrap img { transform: scale(1.05); }
+
+    .card-badge {
+      position: absolute;
+      top: 1rem; left: 1rem;
+      background: var(--charcoal);
+      color: var(--warm-white);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+    }
+
+    .card-badge.sale { background: var(--accent); color: var(--charcoal); }
+
+    .card-quick-add {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: var(--charcoal);
+      color: var(--warm-white);
+      text-align: center;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.9rem;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover .card-quick-add { transform: translateY(0); }
+
+    .card-info {
+      padding: 1rem 0 0;
+      display: flex; flex-direction: column; gap: 0.3rem;
+    }
+
+    .card-category {
+      font-size: 0.6rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--mid);
+    }
+
+    .card-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-weight: 400; line-height: 1.2;
+    }
+
+    .card-price-row {
+      display: flex; align-items: center; gap: 0.6rem; margin-top: 0.2rem;
+    }
+
+    .card-price { font-size: 0.8rem; letter-spacing: 0.05em; }
+    .card-price.sale { color: var(--accent); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.65rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--mid);
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 1.5rem; }
+      nav { display: none; }
+      .hero { padding: 3rem 1.5rem 2rem; flex-direction: column; align-items: flex-start; }
+      .hero-meta { text-align: left; }
+      .filter-bar { padding: 1rem 1.5rem; }
+      .grid-wrapper { padding: 2rem 1.5rem 4rem; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Maison</div>
+  <nav>
+    <a href="#">New In</a>
+    <a href="#">Women</a>
+    <a href="#">Men</a>
+    <a href="#">Accessories</a>
+    <a href="#">Sale</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1 class="hero-title">Spring<br /><em>Collection</em><br />2026</h1>
+  <div class="hero-meta">
+    <p>New arrivals</p>
+    <p id="hero-count">— pieces</p>
+    <p>SS26</p>
+  </div>
+</section>
+
+<div class="filter-bar">
+  <span>Filter:</span>
+  <button class="filter-pill active" onclick="applyFilter('all', this)">All</button>
+  <button class="filter-pill" onclick="applyFilter('women', this)">Women</button>
+  <button class="filter-pill" onclick="applyFilter('men', this)">Men</button>
+  <button class="filter-pill" onclick="applyFilter('accessories', this)">Accessories</button>
+  <button class="filter-pill" onclick="applyFilter('sale', this)">On Sale</button>
+</div>
+
+<div class="grid-wrapper">
+  <div class="product-grid" id="grid"></div>
+</div>
+
+<footer>
+  <span>© 2026 Maison</span>
+  <span>Free shipping on orders over $150</span>
+</footer>
+
+<script>
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Google Sheet column order (row 1 = headers, skipped):
+  //   A: Name  B: Category  C: Tag  D: Price  E: Badge  F: Image
+  //
+  // Badge = "Sale"  → renders with gold accent colour
+  // Badge = "New"   → renders with dark badge
+  // Badge = ""      → no badge shown
+  //
+  // The sheet must be shared as "Anyone with the link can view".
+  // ─────────────────────────────────────────────────────────────────────────────
+  const CSV_URL  = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3v-Rbcc1bnOHkzTN095AeyJPUpX1ykbwjs2SGq1RGbrbcimueFYJj2i8_HcGymoKY975L43hOg99h/pub?output=csv";
+
+  // Robust CSV parser — handles quoted fields that contain commas or newlines
+  function parseCSV(text) {
+    const rows = [];
+    const lines = text.replace(/\r\n|\r/g, "\n").split("\n");
+    for (const line of lines) {
+      if (!line.trim()) continue;
+      const cols = [];
+      let cur = "", inQ = false;
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') {
+          if (inQ && line[i + 1] === '"') { cur += '"'; i++; }
+          else { inQ = !inQ; }
+        } else if (ch === "," && !inQ) {
+          cols.push(cur.trim()); cur = "";
+        } else {
+          cur += ch;
+        }
+      }
+      cols.push(cur.trim());
+      rows.push(cols);
+    }
+    return rows;
+  }
+
+  function rowsToProducts(rows) {
+    const [, ...data] = rows; // drop header row
+    return data
+      .map(cols => {
+        const [name, category, tag, priceRaw, badge, image] = cols;
+        if (!name) return null;
+        return {
+          name,
+          category: category || "",
+          tag: (tag || "").toLowerCase(),
+          price: parseFloat(priceRaw) || 0,
+          badge: badge || "",
+          isSale: (badge || "").toLowerCase() === "sale",
+          image: image || ""
+        };
+      })
+      .filter(Boolean);
+  }
+
+  let allProducts = [];
+
+  function fmt(n) { return "$" + Number(n).toLocaleString(); }
+
+  function renderCards(list) {
+    const grid = document.getElementById("grid");
+    grid.innerHTML = "";
+    if (!list.length) {
+      grid.innerHTML = `<p style="color:var(--mid);font-size:0.8rem;letter-spacing:0.1em;
+        grid-column:1/-1;padding:3rem 0;">No products found.</p>`;
+      return;
+    }
+    list.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <div class="card-image-wrap">
+          <img src="${p.image}" alt="${p.name}" loading="lazy" />
+          ${p.badge
+            ? `<span class="card-badge ${p.isSale ? 'sale' : ''}">${p.badge}</span>`
+            : ""}
+          <div class="card-quick-add">Quick Add</div>
+        </div>
+        <div class="card-info">
+          <span class="card-category">${p.category}</span>
+          <div class="card-name">${p.name}</div>
+          <div class="card-price-row">
+            <span class="card-price ${p.isSale ? 'sale' : ''}">${fmt(p.price)}</span>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+  }
+
+  function applyFilter(type, btn) {
+    document.querySelectorAll(".filter-pill").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    const filtered =
+      type === "all"  ? allProducts :
+      type === "sale" ? allProducts.filter(p => p.isSale) :
+                        allProducts.filter(p => p.tag === type);
+    renderCards(filtered);
+  }
+
+  function showLoading() {
+    document.getElementById("grid").innerHTML = `
+      <div style="grid-column:1/-1;display:flex;align-items:center;gap:0.8rem;
+                  color:var(--mid);font-size:0.7rem;letter-spacing:0.2em;
+                  text-transform:uppercase;padding:4rem 0;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.5"
+             style="animation:spin 1s linear infinite;flex-shrink:0">
+          <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83
+                   M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+        </svg>
+        Loading collection…
+      </div>`;
+  }
+
+  function showError(msg) {
+    document.getElementById("grid").innerHTML = `
+      <div style="grid-column:1/-1;color:var(--mid);font-size:0.75rem;
+                  letter-spacing:0.1em;padding:4rem 0;">⚠ ${msg}</div>`;
+  }
+
+  async function loadProducts() {
+    showLoading();
+    try {
+      const res = await fetch(CSV_URL);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const text = await res.text();
+      allProducts = rowsToProducts(parseCSV(text));
+      document.getElementById("hero-count").textContent = allProducts.length + " pieces";
+      renderCards(allProducts);
+    } catch (err) {
+      console.error(err);
+      showError(
+        "Could not load products. Make sure the Google Sheet is shared as " +
+        "'Anyone with the link can view'."
+      );
+    }
+  }
+
+  loadProducts();
+</script>
+</body>
+</html>
