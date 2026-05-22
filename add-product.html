@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MAISON — Enter Product</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f5f0e8;
+      --warm-white: #faf8f4;
+      --charcoal: #1a1a18;
+      --mid: #6b6560;
+      --accent: #c9a96e;
+      --border: #e0d9ce;
+    }
+
+    body {
+      background-color: var(--warm-white);
+      color: var(--charcoal);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+    }
+
+    /* ── Header — identical to index.html ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 4rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--warm-white);
+      z-index: 10;
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--charcoal);
+    }
+
+    nav {
+      display: flex;
+      gap: 2.5rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    nav a { text-decoration: none; color: inherit; transition: color 0.2s; }
+    nav a:hover { color: var(--charcoal); }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 1.3rem;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--mid);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.22s, color 0.22s, border-color 0.22s;
+      white-space: nowrap;
+    }
+
+    .btn-back:hover {
+      border-color: var(--charcoal);
+      color: var(--charcoal);
+    }
+
+    .btn-back svg { width: 11px; height: 11px; flex-shrink: 0; }
+
+    /* ── Page hero ── */
+    .page-hero {
+      padding: 4rem 4rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-hero-inner {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 300;
+      line-height: 0.92;
+      letter-spacing: -0.01em;
+    }
+
+    .page-title em { font-style: italic; color: var(--accent); }
+
+    .page-meta {
+      text-align: right;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mid);
+      line-height: 2;
+    }
+
+    /* ── Form layout ── */
+    .form-wrapper {
+      padding: 4rem 4rem 6rem;
+      max-width: 900px;
+    }
+
+    .form-section-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 2rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem 2.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    label .required-star {
+      color: var(--accent);
+      margin-left: 0.2rem;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="url"],
+    select {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 0;
+      background: var(--warm-white);
+      color: var(--charcoal);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    input[type="url"]:focus,
+    select:focus {
+      border-color: var(--charcoal);
+      background: var(--cream);
+    }
+
+    input::placeholder { color: var(--border); }
+
+    /* Custom select wrapper */
+    .select-wrap {
+      position: relative;
+    }
+
+    .select-wrap::after {
+      content: "";
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid var(--mid);
+      pointer-events: none;
+    }
+
+    select { cursor: pointer; padding-right: 2.5rem; }
+
+    /* Image preview */
+    .image-preview-wrap {
+      margin-top: 0.75rem;
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      background: var(--cream);
+      border: 1px dashed var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .image-preview-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .image-preview-wrap img.visible { display: block; }
+
+    .image-placeholder-text {
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--border);
+    }
+
+    /* Badge hint */
+    .field-hint {
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      color: var(--mid);
+      opacity: 0.7;
+    }
+
+    /* Submit area */
+    .submit-area {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding-top: 1rem;
+    }
+
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 1rem 2.8rem;
+      background: var(--charcoal);
+      color: var(--warm-white);
+      border: 1px solid var(--charcoal);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.22s, color 0.22s;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      background: transparent;
+      color: var(--charcoal);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-submit .spinner {
+      width: 12px; height: 12px;
+      border: 1.5px solid currentColor;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+      flex-shrink: 0;
+    }
+
+    .btn-submit.loading .spinner { display: block; }
+    .btn-submit.loading .btn-label { opacity: 0.6; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .submit-note {
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      color: var(--mid);
+      opacity: 0.7;
+    }
+
+    /* ── Success overlay ── */
+    .success-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--warm-white);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .success-overlay.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .success-icon {
+      width: 56px; height: 56px;
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+    }
+
+    .success-icon svg { width: 24px; height: 24px; }
+
+    .success-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+    }
+
+    .success-title em { font-style: italic; color: var(--accent); }
+
+    .success-sub {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    .success-bar-wrap {
+      width: 200px;
+      height: 1px;
+      background: var(--border);
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+
+    .success-bar {
+      height: 100%;
+      background: var(--accent);
+      width: 0%;
+      transition: width 3s linear;
+    }
+
+    /* ── Error message ── */
+    .error-msg {
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      color: #b05a5a;
+      display: none;
+    }
+
+    .error-msg.visible { display: block; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.65rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--mid);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      header { padding: 1.5rem; }
+      nav { display: none; }
+      .page-hero { padding: 2.5rem 1.5rem 2rem; }
+      .page-hero-inner { flex-direction: column; align-items: flex-start; }
+      .page-meta { text-align: left; }
+      .form-wrapper { padding: 2rem 1.5rem 4rem; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-group.full-width { grid-column: 1; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header>
+  <a href="index.html" class="logo">Maison</a>
+  <nav>
+    <a href="index.html">New In</a>
+    <a href="index.html">Women</a>
+    <a href="index.html">Men</a>
+    <a href="index.html">Accessories</a>
+    <a href="index.html">Sale</a>
+  </nav>
+  <a href="index.html" class="btn-back">
+    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="7,1 2,6 7,11"/>
+      <line x1="2" y1="6" x2="11" y2="6"/>
+    </svg>
+    Back to Collection
+  </a>
+</header>
+
+<!-- ── Page hero ── -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <h1 class="page-title">Enter<br /><em>New</em><br />Product</h1>
+    <div class="page-meta">
+      <p>Catalogue management</p>
+      <p>SS26</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Form ── -->
+<div class="form-wrapper">
+
+  <p class="form-section-label">Product Details</p>
+
+  <div class="form-grid">
+
+    <!-- Name — Column A -->
+    <div class="form-group full-width">
+      <label for="field-name">
+        Product Name <span class="required-star">✦</span>
+      </label>
+      <input
+        type="text"
+        id="field-name"
+        name="name"
+        placeholder="e.g. Linen Wrap Dress"
+        autocomplete="off"
+        required
+      />
+    </div>
+
+    <!-- Category — Column B -->
+    <div class="form-group">
+      <label for="field-category">
+        Category <span class="required-star">✦</span>
+      </label>
+      <div class="select-wrap">
+        <select id="field-category" name="category" required>
+          <option value="" disabled selected>Select a category</option>
+          <option value="Women">Women</option>
+          <option value="Men">Men</option>
+          <option value="Accessories">Accessories</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Tag — Column C (auto-filled from Category, editable) -->
+    <div class="form-group">
+      <label for="field-tag">
+        Filter Tag <span class="required-star">✦</span>
+      </label>
+      <input
+        type="text"
+        id="field-tag"
+        name="tag"
+        placeholder="e.g. women, men, accessories"
+        autocomplete="off"
+        required
+      />
+      <span class="field-hint">Lowercase — used by filter buttons on the collection page</span>
+    </div>
+
+    <!-- Price — Column D -->
+    <div class="form-group">
+      <label for="field-price">
+        Price (USD) <span class="required-star">✦</span>
+      </label>
+      <input
+        type="number"
+        id="field-price"
+        name="price"
+        placeholder="e.g. 245"
+        min="0"
+        step="0.01"
+        required
+      />
+    </div>
+
+    <!-- Badge — Column E -->
+    <div class="form-group">
+      <label for="field-badge">Badge</label>
+      <div class="select-wrap">
+        <select id="field-badge" name="badge">
+          <option value="">No badge</option>
+          <option value="New">New</option>
+          <option value="Sale">Sale</option>
+        </select>
+      </div>
+      <span class="field-hint">"Sale" renders in gold · "New" renders in charcoal</span>
+    </div>
+
+    <!-- Image URL — Column F -->
+    <div class="form-group full-width">
+      <label for="field-image">
+        Image URL <span class="required-star">✦</span>
+      </label>
+      <input
+        type="url"
+        id="field-image"
+        name="image"
+        placeholder="https://example.com/images/product.jpg"
+        autocomplete="off"
+        required
+      />
+      <!-- Live preview -->
+      <div class="image-preview-wrap" id="image-preview-wrap">
+        <img id="image-preview" src="" alt="Image preview" />
+        <span class="image-placeholder-text" id="image-placeholder">Preview will appear here</span>
+      </div>
+    </div>
+
+  </div><!-- /form-grid -->
+
+  <!-- Error message -->
+  <p class="error-msg" id="error-msg">Something went wrong. Please check your connection and try again.</p>
+
+  <!-- Submit -->
+  <div class="submit-area">
+    <button class="btn-submit" id="submit-btn" onclick="handleSubmit()">
+      <span class="spinner"></span>
+      <span class="btn-label">Add to Collection</span>
+    </button>
+    <span class="submit-note">Fields marked ✦ are required</span>
+  </div>
+
+</div><!-- /form-wrapper -->
+
+<footer>
+  <span>© 2026 Maison</span>
+  <span>Free shipping on orders over $150</span>
+</footer>
+
+<!-- ── Success overlay ── -->
+<div class="success-overlay" id="success-overlay">
+  <div class="success-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+  </div>
+  <div class="success-title">Product <em>Added</em></div>
+  <p class="success-sub">Redirecting to collection…</p>
+  <div class="success-bar-wrap">
+    <div class="success-bar" id="success-bar"></div>
+  </div>
+</div>
+
+<script>
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Replace the placeholder below with your deployed Google Apps Script Web App URL.
+  // In Apps Script: Deploy → New Deployment → Web App → Execute as: Me,
+  // Who has access: Anyone → Deploy → copy the URL and paste it here.
+  // ─────────────────────────────────────────────────────────────────────────────
+  const WEB_APP_URL https://script.google.com/macros/s/AKfycbxVHN90m7aSzMGdPD8T6lz2UYncU2-mHda99OHS96pblycjIhoFfGiPHVBeR6c_ksdd/exec 
+
+  // ── Auto-fill Tag from Category ────────────────────────────────────────────
+  // When the user picks a category, the tag field is pre-filled with the
+  // lowercase version — matching how the filter buttons compare p.tag === type.
+  document.getElementById("field-category").addEventListener("change", function () {
+    const tagField = document.getElementById("field-tag");
+    // Only auto-fill if the user hasn't typed something custom yet
+    const presets = ["women", "men", "accessories", ""];
+    if (presets.includes(tagField.value.toLowerCase())) {
+      tagField.value = this.value.toLowerCase();
+    }
+  });
+
+  // ── Live image preview ─────────────────────────────────────────────────────
+  let previewTimeout;
+  document.getElementById("field-image").addEventListener("input", function () {
+    clearTimeout(previewTimeout);
+    const url = this.value.trim();
+    if (!url) {
+      resetPreview();
+      return;
+    }
+    // Debounce 600ms to avoid hammering broken URLs
+    previewTimeout = setTimeout(() => tryPreview(url), 600);
+  });
+
+  function tryPreview(url) {
+    const img     = document.getElementById("image-preview");
+    const ph      = document.getElementById("image-placeholder");
+    const wrap    = document.getElementById("image-preview-wrap");
+    img.onload  = () => { img.classList.add("visible"); ph.style.display = "none"; wrap.style.borderStyle = "solid"; };
+    img.onerror = () => { resetPreview(); };
+    img.src = url;
+  }
+
+  function resetPreview() {
+    const img  = document.getElementById("image-preview");
+    const ph   = document.getElementById("image-placeholder");
+    const wrap = document.getElementById("image-preview-wrap");
+    img.classList.remove("visible");
+    img.src = "";
+    ph.style.display = "";
+    wrap.style.borderStyle = "dashed";
+  }
+
+  // ── Form validation ────────────────────────────────────────────────────────
+  function getFormValues() {
+    return {
+      name:     document.getElementById("field-name").value.trim(),
+      category: document.getElementById("field-category").value.trim(),
+      tag:      document.getElementById("field-tag").value.trim().toLowerCase(),
+      price:    document.getElementById("field-price").value.trim(),
+      badge:    document.getElementById("field-badge").value.trim(),
+      image:    document.getElementById("field-image").value.trim(),
+    };
+  }
+
+  function validate(values) {
+    if (!values.name)     return "Product name is required.";
+    if (!values.category) return "Please select a category.";
+    if (!values.tag)      return "Filter tag is required.";
+    if (!values.price || isNaN(Number(values.price))) return "A valid price is required.";
+    if (!values.image)    return "Image URL is required.";
+    return null; // no error
+  }
+
+  // ── Submit handler ─────────────────────────────────────────────────────────
+  async function handleSubmit() {
+    const errorEl = document.getElementById("error-msg");
+    const btn     = document.getElementById("submit-btn");
+
+    // Hide any previous error
+    errorEl.classList.remove("visible");
+
+    const values = getFormValues();
+    const validationError = validate(values);
+    if (validationError) {
+      errorEl.textContent = validationError;
+      errorEl.classList.add("visible");
+      return;
+    }
+
+    // Check the URL has been replaced
+    if (WEB_APP_URL === "PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE") {
+      errorEl.textContent = "Please paste your Google Apps Script Web App URL into the WEB_APP_URL constant in this file.";
+      errorEl.classList.add("visible");
+      return;
+    }
+
+    // Loading state
+    btn.disabled = true;
+    btn.classList.add("loading");
+
+    // Build URL with query parameters — matches e.parameter.fieldName in doGet(e)
+    const params = new URLSearchParams(values);
+    const fullURL = `${WEB_APP_URL}?${params.toString()}`;
+
+    try {
+      // no-cors is required for cross-origin Apps Script calls from the browser.
+      // The response body will be opaque (unreadable), but the row is still written.
+      await fetch(fullURL, { method: "GET", mode: "no-cors" });
+      showSuccess();
+    } catch (err) {
+      console.error("Submission error:", err);
+      btn.disabled = false;
+      btn.classList.remove("loading");
+      errorEl.textContent = "Submission failed. Please check your connection and try again.";
+      errorEl.classList.add("visible");
+    }
+  }
+
+  // ── Success overlay + redirect ─────────────────────────────────────────────
+  function showSuccess() {
+    const overlay = document.getElementById("success-overlay");
+    const bar     = document.getElementById("success-bar");
+
+    overlay.classList.add("visible");
+
+    // Trigger the progress bar animation on next frame
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        bar.style.width = "100%";
+      });
+    });
+
+    // Redirect after the bar completes (3 seconds)
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 3200);
+  }
+</script>
+</body>
+</html>
